@@ -7,7 +7,7 @@ as Discord limits the number of components to five (four properties plus a "Subm
 Sadly, Notion does not provide any Webhooks or other notification mechanisms, so for the notification feature of the bot will poll the database for changes every `database-query-interval` seconds.
 
 This project uses [JDA](https://github.com/discord-jda/JDA) for Discord integration and [Notion SDK JVM](https://github.com/seratch/notion-sdk-jvm) for Notion integration.
-[Logback](http://logback.qos.ch/) is used for logging. A `latest.log` file will be created in the same directory as the jar file and automatically be rotated.
+[Logback](http://logback.qos.ch/) is used for logging. A `latest.log` file will be created in the same directory as the jar file.
 
 ![Photos_V0rW05l5Kj](https://github.com/user-attachments/assets/50109f9d-324d-4800-a171-6229569906b6)
 
