@@ -13,6 +13,8 @@ This project uses [JDA](https://github.com/discord-jda/JDA) for Discord integrat
 
 
 ## Download
+[![pre-release](https://github.com/Malfrador/NotionDiscordBot/actions/workflows/automatic_release.yml/badge.svg)](https://github.com/Malfrador/NotionDiscordBot/actions/workflows/automatic_release.yml)
+
 Pre-built Releases are available on Github [here](https://github.com/Malfrador/NotionDiscordBot/releases/tag/latest)
 
 
