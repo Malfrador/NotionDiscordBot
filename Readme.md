@@ -9,6 +9,9 @@ Sadly, Notion does not provide any Webhooks or other notification mechanisms, so
 This project uses [JDA](https://github.com/discord-jda/JDA) for Discord integration and [Notion SDK JVM](https://github.com/seratch/notion-sdk-jvm) for Notion integration.
 [Logback](http://logback.qos.ch/) is used for logging. A `latest.log` file will be created in the same directory as the jar file and automatically be rotated.
 
+![Photos_Y8Sf3jjTl2](https://github.com/user-attachments/assets/cfbe1721-d0e7-4771-a8af-c6c4ce59e7b9)
+
+
 ## Usage
 Requirements:
 * Java 21
