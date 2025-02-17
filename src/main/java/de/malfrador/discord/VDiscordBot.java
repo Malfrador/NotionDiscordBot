@@ -42,7 +42,7 @@ public class VDiscordBot implements EventListener {
     private static final Logger LOG = LoggerFactory.getLogger(VDiscordBot.class);
 
     private final String token;
-    private VConfig config = Main.config;
+    private final VConfig config = Main.config;
     private JDA jda;
     private final VNotionManager notionManager;
     private final List<ReportingProperty> properties;
@@ -115,6 +115,7 @@ public class VDiscordBot implements EventListener {
                         .orElse(null);
 
                 if (property != null && property.type() == PropertyType.RichText) {
+                    // Create a modal for the user to enter text. This is a workaround for the lack of text input in normal components
                     TextInput textInput = TextInput.create(property.id(), property.id(), TextInputStyle.PARAGRAPH)
                             .setPlaceholder("Enter your text here...")
                             .setMinLength(1)
@@ -158,6 +159,10 @@ public class VDiscordBot implements EventListener {
         }
     }
 
+    /**
+     * Update the message components with the user's selections.
+     * The user would not be able to see what they have selected after we update the message otherwise.
+     */
     private void updateComponentsWithSelections(Message message, String userId) {
         List<ActionRow> updatedRows = new ArrayList<>();
         Map<String, String> userSelections = selectedByDiscordUser.get(userId);

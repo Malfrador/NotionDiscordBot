@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("ClassEscapesDefinedScope")
 public class VConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(VConfig.class);
@@ -47,6 +46,9 @@ public class VConfig {
         }
         try {
             global = root.get(BotConfig.class);
+            if (global == null) {
+                global = new BotConfig();
+            }
             notion = global.notionSetup;
             discord = global.discordBotSetup;
             discordMessages = global.discordMessages;
@@ -54,7 +56,7 @@ public class VConfig {
             LOG.error("Failed to deserialize config.yml", e);
             throw new RuntimeException(e);
         }
-        saveConfig();
+        saveConfig(); // Save config to ensure all fields are present, or create it if this is the first run
     }
 
     public void saveConfig() {
@@ -84,7 +86,7 @@ public class VConfig {
 
         @ConfigSerializable
         public static class DiscordBotSetup {
-            @Setting(value = "discord-reporting-channel-id")
+            @Setting(value = "discord-reporting-channel-id") // If we don't do this, the key will be U-U-I-D, which is ugly
             public String discordReportingChannelID = "discord-reporting-channel-id";
             @Setting(value = "discord-reporting-message-id")
             public String discordReportingMessageID = "discord-reporting-message-id";

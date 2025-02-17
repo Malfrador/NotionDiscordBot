@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DummyLogger implements NotionLogger {
 
-    private static final Logger LOG = LoggerFactory.getLogger(VNotionManager.class);
+    private static final Logger LOG = LoggerFactory.getLogger(VNotionManager.class); // Use the Notion logger, as this belongs to the Notion part
 
     @Override
     public void debug(@NotNull String s) {
@@ -31,7 +31,7 @@ public class DummyLogger implements NotionLogger {
 
     @Override
     public void info(@NotNull String s, @Nullable Throwable throwable) {
-
+        // Those just spam the raw HTTP responses, so we'll just ignore them
     }
 
     @Override
@@ -46,7 +46,7 @@ public class DummyLogger implements NotionLogger {
 
     @Override
     public void info(@NotNull String s) {
-
+        // Those just spam the raw HTTP responses, so we'll just ignore them
     }
 
     @Override

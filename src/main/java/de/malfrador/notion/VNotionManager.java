@@ -41,11 +41,10 @@ public class VNotionManager {
     private final Instant startupTime = Instant.now();
 
     private final String token;
-    private VConfig config = Main.config;
+    private final VConfig config = Main.config;
     private Database database;
     private NotionClient client;
-    private List<ReportingProperty> properties;
-    private List<DiscordProperty> discordProperties = new ArrayList<>();
+    private final List<DiscordProperty> discordProperties = new ArrayList<>();
     VDiscordBot discordBotThread;
 
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
@@ -88,6 +87,9 @@ public class VNotionManager {
         }, 0, config.notion.databaseQueryInterval, TimeUnit.SECONDS);
     }
 
+    /*
+     * Shutdown the scheduler, just in case
+     */
     public void shutdown() {
         scheduler.shutdown();
         try {
@@ -100,6 +102,10 @@ public class VNotionManager {
         }
     }
 
+    /**
+     * Insert a new page into the Notion database.
+     * This is used by the Discord bot to insert bug reports.
+     */
     public void insertIntoDatabase(Map<String, String> properties) {
         if (database == null) {
             LOG.error("Notion database is not loaded yet, skipping insert");
@@ -144,6 +150,9 @@ public class VNotionManager {
         client.createPage(createPageRequest);
     }
 
+    /**
+     * Get the property type of a property in the Notion database
+     */
     private PropertyType getPropertyType(String notionID) {
         for (DiscordProperty property : discordProperties) {
             if (property.notionID().equals(notionID)) {
@@ -182,11 +191,14 @@ public class VNotionManager {
                 default -> {} // Ignore unsupported property types that we aren't able to show on Discord anyway
             }
         }
-        this.properties = properties;
         LOG.info("Loaded {} properties from Notion database", properties.size());
         discordBotThread = new VDiscordBot(config.global.discordToken, properties, this);
     }
 
+    /*
+     * Query notion for new pages in the database.
+     * If a new page is found, notify Discord
+     */
     private void checkForNewPages(String databaseId) {
         Instant lastKnownTime = lastPageIds.containsKey(databaseId)
                 ? Instant.parse(lastPageIds.getOrDefault(databaseId, ""))
@@ -217,6 +229,10 @@ public class VNotionManager {
         lastPageIds.put(databaseId, newestEditTime);
     }
 
+    /*
+     * Notify Discord about a new page or edit in the Notion database.
+     * This will create an embed message with the page title, content, and properties.
+     */
     private void notifyDiscord(notion.api.v1.model.pages.Page page, String databaseId) {
         MessageChannel channel = discordBotThread.getJda()
                 .getTextChannelById(config.discord.notificationChannelId);
@@ -275,7 +291,7 @@ public class VNotionManager {
                 .addField("Last Edited", lastEdited.toString(), true);
 
         if (!content.isEmpty()) {
-            if (content.length() > 500) { // Lets not spam the channel with huge messages
+            if (content.length() > 500) { // Let's not spam the channel with huge messages
                 content = content.substring(0, 500) + "...";
             }
             embed.addField("Content", content, false);
@@ -286,6 +302,9 @@ public class VNotionManager {
                 isEdit ? "edited" : "new", title, databaseId);
     }
 
+    /*
+     * Extract the title of a Notion page, as a plain text string
+     */
     private String extractTitle(notion.api.v1.model.pages.Page page) {
         var titleProp = page.getProperties().values().stream()
                 .filter(p -> p.getType() == PropertyType.Title)
