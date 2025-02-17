@@ -12,6 +12,10 @@ This project uses [JDA](https://github.com/discord-jda/JDA) for Discord integrat
 ![Photos_V0rW05l5Kj](https://github.com/user-attachments/assets/50109f9d-324d-4800-a171-6229569906b6)
 
 
+## Download
+Pre-built Releases are available on Github [here](https://github.com/Malfrador/NotionDiscordBot/releases/tag/latest)
+
+
 ## Usage
 Requirements:
 * Java 21
