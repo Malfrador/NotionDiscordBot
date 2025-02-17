@@ -32,11 +32,17 @@ discord-messages:
     reporting-text: # The text shown in the bug reporting message
 notion-setup:
     monitored-databases: # A list of notion database ID
-    - # Database UUID. The UUID is the first part of the "Share" URL e.g., https://www.notion.so/19c52a80a64580659aefd31dabb24fba
+    - # Database UUID. 
     database-query-interval: # How often to query the database for the notification channel, in seconds
     database-query-size: # How many items to query from the database at a time
-    notion-database-uuid: # The UUID of the database for the bug reporting. The UUID is the first part of the "Share" URL e.g., https://www.notion.so/19c52a80a64580659aefd31dabb24fba
+    notion-database-uuid: # The UUID of the database for the bug reporting.
 ```
+
+### How do I find the Notion database UUID?
+Its surprisingly complicated. 
+1) Open the Database in full view.
+2) Click on "Share" -> "Copy Link". You will get a link like `https://www.notion.so/19c52a80a6458020acccc19f3427d841?v=19c52a80a64580caa4e7000cb5db96c2&pvs=4`
+3) The first part of this is the UUID. In this case that is `19c52a80a6458020acccc19f3427d841`
 
 ## Building
 This project uses Gradle. The Gradle wrapper is included in the repository, so you do not need to install anything. If no JDK 21 is found, the wrapper will download it for you.
